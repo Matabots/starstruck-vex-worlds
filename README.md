@@ -1,7 +1,7 @@
 # starstruck-vex-worlds
 The code for the starstruck vex robotics challenge.
 
-In particular, it is the ROS integration of the code.
+THIS IS THE FINALIZED CODE. In particular, it is the ROS integration of the code.
 
 Hardware Needed:
 - Nvidia Jetson Tk1
