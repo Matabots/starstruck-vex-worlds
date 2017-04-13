@@ -15,10 +15,11 @@ namespace robot
         /*"roaming phase" -> findObj*/
         /*"instruction phase" -> GoToObj*/
         ROS_INFO_STREAM("IDLE");
-        if(rbt.phase == Roam)
+        if(rbt.phase == Find)
         {
             return FindObj;
         }
+        
         if(rbt.phase == Instruction)
         {
             return GoToObj;
@@ -31,10 +32,24 @@ namespace robot
 
     States FindObjState(States state,Robot& rbt)
     {
-            /* search for object */
-        
         ROS_INFO_STREAM("FIND");
-            /*if obj is found. state=GoToObj*/
+        /* search for object */
+        static bool searching = false;
+        if(rbt.gyro.w > 0)
+        {
+            rbt.Turn(90);
+        }
+        if(rbt.gyro.w == 0 || searching)
+        {
+            searching = true;
+            rbt.Turn(269);
+            /*if it detects objects, calculate value and if largest, save the location*/
+            if(rbt.gyro.w == 269)
+            {
+                searching = false;
+                return GoToObj;
+            }
+        }
     }
 
     States GoToObjState(States state,Robot& rbt)
@@ -135,8 +150,7 @@ namespace robot
 
             case IdleClaw:/*obj have been dropped -> idle state*/
                 /*get distance and lower claw again*/
-                
-                rbt.wayPoint.erase(rbt.wayPoint.begin());
+                rbt.wayPoint.erase(rbt.wayPoint.begin()); //note: slow. change if it takes up too much processing time
                 return IdleRobot;
                 break;
         }

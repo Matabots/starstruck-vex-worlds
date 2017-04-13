@@ -35,9 +35,9 @@ int main(int argc, char** argv) {
     ros::Rate rate(10);
     while(ros::ok())
     {
-            assem1.Run(assem1);//move the robot. State Machine
+            assem1.Run(assem1); //move the robot. State Machine
             assem1.UpdatePosition(assem1);
-            ros::spinOnce();//where the callback is actually called
+            ros::spinOnce(); //where the callback is actually called
             ROS_INFO_STREAM(assem1.gyro);
             
     }

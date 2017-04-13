@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
     int fd, n, i;
     const int bufSize = 128;
 
-    char tarCmd [] = {':', 0x22, '0', '\n'};
+    char tarCmd [] = {':', '0', '0', '\n'};
     char QuatCmd[] = {':', '0','0' ,'\n'};
     char EulerCmd[] = {':', '1','0' ,'\n'};
     char buf[bufSize];
@@ -112,11 +112,20 @@ int main(int argc, char *argv[])
     write(fd, &tarCmd[1], 1);
     //write(fd, &tarCmd[2], 1);  
     write(fd, &tarCmd[3], 1);
+
+    printf("%s\n", tarCmd);
+
+    memset(buf, '\0', bufSize);
+    n = read(fd, buf, bufSize);
+
+    printf("Response: %s", buf);
+    
     geometry_msgs::Quaternion eulerAngles;
     ros::Publisher pub = nh.advertise<geometry_msgs::Quaternion>("Robot/RPY",1000);
+    
+    usleep(10000000);
     while(true)
     {
-
         //Get Quaternion
         write(fd, &EulerCmd[0], 1);
         write(fd, &EulerCmd[1], 1);

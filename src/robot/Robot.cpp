@@ -32,7 +32,7 @@ namespace robot
         ros::NodeHandle nh;
         localPose.x = 0;
         localPose.y = 0;
-        localPose.theta = 0;//degrees
+        localPose.theta = 0;//rpy in degrees 
         
         sub_gyro = nh.subscribe("Robot/RPY",1000,&Robot::gyroCallback,this);
         sub_leftDriveEncTick = nh.subscribe("Robot/LeftEnc",1000,&Robot::leftDriveEncCallback,this);
@@ -102,31 +102,37 @@ namespace robot
     {
 //        if(clawAngle < targetAngle)
 //        {
-//            //move claw closed
+//           motor[claw] = 127;
 //        }
-//        else if(clawAnlge > targetAngle)
+//        else if(clawAngle > targetAngle)
 //        {
-//            //move claw open
+//            motor[claw] = -127;
 //        }
 //        else
 //        {
-//            //stop claw
+//            motor[claw] = 0;
 //        }
     }
     void Robot::MoveLift(double targetAngle)
     {
-         if(targetAngle > gyro.w)
-        {
-            //move arm downwards
-        }
-        else if(targetAngle<gyro.w)
-        {
-            //move arm upwards
-        }
-        else
-        {
-            //stop
-        }
+//         if(liftAngle < targetAngle) // too low
+//        {
+//            motor[liftLeftBottom] = 127;
+//            motor[liftRightBottom] = 127;
+//            motor[liftTop] = 127;
+//        }
+//         else if(liftAngle > targetAngle) //too high
+//        {
+//             motor[liftLeftBottom] = -127;
+//            motor[liftRightBottom] = -127;
+//            motor[liftTop] = -127;
+//        }
+//        else // perf
+//        {
+//            motor[liftLeftBottom] = 0;
+//            motor[liftRightBottom] = 0;
+//            motor[liftTop] = 0;
+//        }
     }
     void Robot::UpdatePosition(Robot& rbt)
     {
@@ -138,11 +144,6 @@ namespace robot
         //updates the robots position based on the displacement calculated above
         localPose.x += xSpeed;
         localPose.y += ySpeed;
-//        ros::NodeHandle nh;
-//        sub_gyro = nh.subscribe("Robot/RPY",1000,&Robot::gyroCallback,this);
-//        sub_leftDriveEncTick = nh.subscribe("leftDriveEnc",1000,&Robot::leftDriveEncCallback,this);
-//        sub_rightDriveEncTick = nh.subscribe("rightDriveEnc",1000,&Robot::rightDriveEncCallback,this);
-//        sub_wayPoint = nh.subscribe("waypoint",1000,&Robot::wayPointCallback,this);
     }
     
     void Robot::Stop()
@@ -162,7 +163,6 @@ namespace robot
         ROS_INFO_STREAM_ONCE("ITS RUNNING");
     }
     
-    
     void Robot::leftDriveEncCallback(const std_msgs::Int32& robotEncoderTick)
     {
         leftDriveEnc.currTick = robotEncoderTick.data;
@@ -178,7 +178,6 @@ namespace robot
     void Robot::gyroCallback(const geometry_msgs::Quaternion& rpy)
     {
          gyro = rpy;
-         localPose.theta = gyro.w;
     }
    
 }

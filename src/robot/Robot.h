@@ -37,19 +37,21 @@ namespace robot
        
         geometry_msgs::Pose2D localPose,
                               prevPose;
+        
         Encoder leftDriveEnc,
                 rightDriveEnc;
         
         vector<geometry_msgs::Pose2D> wayPoint;
                               
-        geometry_msgs::Quaternion gyro;
+        geometry_msgs::Quaternion gyro; //Euler angles of the robot
+        
         float xSpeed,
               ySpeed;//speed of the robot
         
         float wheelCircumference = 20.0;  // wheel circumfrence for vex omni. unit determines measurement of system. i.e circ -> inches means x,y -> inches
         
-        SubStates subState = IdleClaw;
-        Phase phase = Instruction;
+        SubStates subState = IdleClaw; //state of sub sunctions such as arm movement
+        Phase phase = Instruction; 
         
         States state = Start;
         
@@ -65,6 +67,8 @@ namespace robot
         void rightDriveEncCallback(const std_msgs::Int32& robotEncoder);
         void wayPointCallback(const geometry_msgs::Pose2D& newWaypoint);
         void gyroCallback(const geometry_msgs::Quaternion& rpy);
+        void MoveClaw(double targetAngle);
+        void MoveLift(double targetAngle);
     private:
         
         

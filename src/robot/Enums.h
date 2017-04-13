@@ -17,7 +17,7 @@
 
 namespace robot
 {
-
+    //properties of the encoders.
     typedef struct
     {
             int currTick;
@@ -52,7 +52,7 @@ namespace robot
     enum Phase
     {
             Instruction, //go to predefined points
-            Roam //search for objects
+            Find //search for objects
     };
     
     //motors and their corresponding ports
@@ -66,8 +66,8 @@ namespace robot
         rightTop = 5,
         liftLeftBottom = 6,
         liftRightBottom = 7,
-        liftLeftTop = 8,
-        liftRightTop = 9
+        liftTop = 8,
+        claw = 9
     };
 
 }
