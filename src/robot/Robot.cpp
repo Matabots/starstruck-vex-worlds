@@ -32,7 +32,7 @@ namespace robot
         ros::NodeHandle nh;
         localPose.x = 0;
         localPose.y = 0;
-        localPose.theta = 0;//rpy in degrees 
+        localPose.theta = 0;//yaw (y) in degrees.
         
         sub_gyro = nh.subscribe("Robot/RPY",1000,&Robot::gyroCallback,this);
         sub_leftDriveEncTick = nh.subscribe("Robot/LeftEnc",1000,&Robot::leftDriveEncCallback,this);
@@ -134,16 +134,30 @@ namespace robot
 //            motor[liftTop] = 0;
 //        }
     }
+    
+    void Robot::MoveBack(double targetDistance)
+    {
+//        static float startEncoder = Average((float)leftDriveEnc.currTick,(float)rightDriveEnc.currTick);
+//        if((localPose.theta > 0 && localPose.theta <180) && localPose.x < localPose.x + (targetDistance * cosh(localPose.theta)) && )
+//        motor[leftBack] = -127;
+//        motor[leftFront] = -127;
+//        motor[leftTop] = -127;
+//        motor[rightBack] = -127;
+//        motor[rightFront] = -127;
+//        motor[rightTop] = -127;
+    }
+    
     void Robot::UpdatePosition(Robot& rbt)
     {
         float distance = CalculateDistance(leftDriveEnc,rightDriveEnc,rbt);
- 
+        
         //calculate the distance the robot has traveled along its path (the hypotenuse)
         xSpeed = cosh(localPose.theta) * distance;
         ySpeed = sinh(localPose.theta) * distance;
         //updates the robots position based on the displacement calculated above
         localPose.x += xSpeed;
         localPose.y += ySpeed;
+        localPose.theta = gyro.y;
     }
     
     void Robot::Stop()

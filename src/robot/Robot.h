@@ -69,6 +69,8 @@ namespace robot
         void gyroCallback(const geometry_msgs::Quaternion& rpy);
         void MoveClaw(double targetAngle);
         void MoveLift(double targetAngle);
+        void MoveBack(double targetDistance);
+        
     private:
         
         
