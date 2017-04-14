@@ -79,19 +79,26 @@ namespace robot
                 break;
 
             case OpenClaw:
-                /*open the claw*/
+                rbt.MoveClaw(90);
                 /*Drive forward to pick up obj*/
+                if(/*claw around objects*/)
+                {
                 rbt.subState = CloseClaw;
+                }
                 break;
 
             case CloseClaw:
-                /*CloseClaw*/
-                rbt.subState = LiftClaw;
+                rbt.MoveClaw(0);
+                if(/*claw is closed*/)
+                {
+                    rbt.subState = LiftClaw;
+                }
                 break;
 
             case LiftClaw:
                 /*obj has been grabbed and lifted -> update map*/
                 /*if time is too low. go to fence*/
+                rbt.subState = IdleClaw;
                 return UpdateMap;
                 break;
         }
@@ -124,6 +131,7 @@ namespace robot
             /*found fence spot. Move to score area*/
             if(ComparePosition(rbt.localPose.x,rbt.wayPoint.at(0).x) < 1 && ComparePosition(rbt.localPose.y,rbt.wayPoint.at(0).y)<1)
             {
+                rbt.subState = ScoreClaw;
                 return Score;/*at fence spot ->score*/
             }
             else
@@ -144,12 +152,16 @@ namespace robot
         switch(rbt.subState)
         {
             case ScoreClaw:
-                /*move claw upwards and open claw*/
-                rbt.subState = IdleClaw;
+                rbt.MoveClaw(90);
+                if(/*claw around objects*/)
+                {
+                    rbt.subState = IdleClaw;
+                }
                 break;
 
             case IdleClaw:/*obj have been dropped -> idle state*/
-                /*get distance and lower claw again*/
+                /*back up*/
+                rbt.MoveLift(0);
                 rbt.wayPoint.erase(rbt.wayPoint.begin()); //note: slow. change if it takes up too much processing time
                 return IdleRobot;
                 break;
