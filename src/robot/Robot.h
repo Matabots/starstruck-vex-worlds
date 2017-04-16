@@ -33,7 +33,9 @@ namespace robot
         ros::Subscriber sub_leftDriveEncTick,
                         sub_rightDriveEncTick,
                         sub_wayPoint,
-                        sub_gyro;
+                        sub_gyro,
+                        sub_liftPot,
+                        sub_clawPot;
        
         geometry_msgs::Pose2D localPose,
                               prevPose;
@@ -44,6 +46,9 @@ namespace robot
         vector<geometry_msgs::Pose2D> wayPoint;
                               
         geometry_msgs::Quaternion gyro; //Euler angles of the robot
+        
+        int clawPot,
+            liftPot;
         
         float xSpeed,
               ySpeed;//speed of the robot
@@ -63,14 +68,18 @@ namespace robot
         void Move();
         void UpdatePosition(Robot& rbt);
         void Run(Robot& rbt);
-        void leftDriveEncCallback(const std_msgs::Int32& robotEncoder);
-        void rightDriveEncCallback(const std_msgs::Int32& robotEncoder);
-        void wayPointCallback(const geometry_msgs::Pose2D& newWaypoint);
-        void gyroCallback(const geometry_msgs::Quaternion& rpy);
         void MoveClaw(double targetAngle);
         void MoveLift(double targetAngle);
         void MoveBack(double targetDistance);
+        void MoveForward(double targetDistance);
+        void SendMotorPowers();
         
+        void leftDriveEncCallback(const std_msgs::Int32& robotEncoder);
+        void rightDriveEncCallback(const std_msgs::Int32& robotEncoder);
+        void wayPointCallback(const geometry_msgs::Pose2D& newWaypoint);
+        void clawCallback(const std_msgs::Int32& clawValue);
+        void liftCallback(const std_msgs::Int32& liftValue);
+        void gyroCallback(const geometry_msgs::Quaternion& rpy);
     private:
         
         

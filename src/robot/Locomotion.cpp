@@ -81,18 +81,18 @@ namespace robot
             case OpenClaw:
                 rbt.MoveClaw(90);
                 /*Drive forward to pick up obj*/
-                if(/*claw around objects*/)
+                /*if(claw around objects)
                 {
                 rbt.subState = CloseClaw;
-                }
+                }*/
                 break;
 
             case CloseClaw:
                 rbt.MoveClaw(0);
-                if(/*claw is closed*/)
+                /*if(claw is closed)
                 {
                     rbt.subState = LiftClaw;
-                }
+                }*/
                 break;
 
             case LiftClaw:
@@ -153,10 +153,10 @@ namespace robot
         {
             case ScoreClaw:
                 rbt.MoveClaw(90);
-                if(/*claw around objects*/)
+                /*if(claw around objects)
                 {
                     rbt.subState = IdleClaw;
-                }
+                }*/
                 break;
 
             case IdleClaw:/*obj have been dropped -> idle state*/

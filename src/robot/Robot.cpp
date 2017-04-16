@@ -37,7 +37,11 @@ namespace robot
         sub_gyro = nh.subscribe("Robot/RPY",1000,&Robot::gyroCallback,this);
         sub_leftDriveEncTick = nh.subscribe("Robot/LeftEnc",1000,&Robot::leftDriveEncCallback,this);
         sub_rightDriveEncTick = nh.subscribe("Robot/RightEnc",1000,&Robot::rightDriveEncCallback,this);
+        sub_clawPot = nh.subscribe("Robot/ClawPot",1000,&Robot::clawCallback,this);
+        sub_liftPot = nh.subscribe("Robot/LiftPot",1000,&Robot::liftCallback,this);
+                
         sub_wayPoint = nh.subscribe("waypoint",1000,&Robot::wayPointCallback,this);
+        
         leftDriveEnc.gearRatio= 4/3;
         rightDriveEnc.gearRatio= 4/3;   
     }
@@ -146,6 +150,22 @@ namespace robot
 //        motor[rightFront] = -127;
 //        motor[rightTop] = -127;
     }
+    void Robot::MoveForward(double targetDistance)
+    {
+//        static float startEncoder = Average((float)leftDriveEnc.currTick,(float)rightDriveEnc.currTick);
+//        if((localPose.theta > 0 && localPose.theta <180) && localPose.x < localPose.x + (targetDistance * cosh(localPose.theta)) && )
+//        motor[leftBack] = -127;
+//        motor[leftFront] = -127;
+//        motor[leftTop] = -127;
+//        motor[rightBack] = -127;
+//        motor[rightFront] = -127;
+//        motor[rightTop] = -127;
+    }
+    
+    void Robot::SendMotorPowers()
+    {
+        //send motor[]
+    }
     
     void Robot::UpdatePosition(Robot& rbt)
     {
@@ -173,7 +193,6 @@ namespace robot
     void Robot::Run(Robot& rbt)
     {
         FSM(rbt);
-        ros::NodeHandle nh;
         ROS_INFO_STREAM_ONCE("ITS RUNNING");
     }
     
@@ -184,6 +203,14 @@ namespace robot
     void Robot::rightDriveEncCallback(const std_msgs::Int32& robotEncoderTick)
     {
        rightDriveEnc.currTick = robotEncoderTick.data;
+    } 
+    void Robot::clawCallback(const std_msgs::Int32& clawValue)
+    {
+        clawPot = clawValue.data;
+    }
+    void Robot::liftCallback(const std_msgs::Int32& liftValue)
+    {
+        liftPot = liftValue.data;
     }
     void Robot::wayPointCallback(const geometry_msgs::Pose2D& newWaypoint)
     {

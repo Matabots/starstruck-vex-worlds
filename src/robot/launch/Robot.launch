@@ -1,0 +1,16 @@
+<launch>
+    <node
+        pkg = "robot"
+        type = "RunRobot"
+        name = "RunRobot_ros"
+        required = "true"
+        output = "screen"
+    />
+    <node
+        pkg = "jetson"
+        type = "Sensors"
+        name = "Sensors_ros"
+        required = "true"
+        output = "screen"
+    />
+ </launch>
